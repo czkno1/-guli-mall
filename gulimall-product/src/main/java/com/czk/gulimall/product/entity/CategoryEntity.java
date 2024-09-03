@@ -1,11 +1,13 @@
 package com.czk.gulimall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
-import lombok.Data;
+import java.util.List;
 
 /**
  * 商品三级分类
@@ -36,6 +38,8 @@ public class CategoryEntity implements Serializable {
 	 * 层级
 	 */
 	private Integer catLevel;
+	@TableLogic(value = "1", delval = "0") // 由于此处和全局配置那里逻辑是反的，所以这里单独配置一下，覆盖全局配置。
+	// 这样配置后，参数为 1为未删除，0为已删除，和数据库的字段值逻辑一样。
 	/**
 	 * 是否显示[0-不显示，1显示]
 	 */
@@ -57,4 +61,6 @@ public class CategoryEntity implements Serializable {
 	 */
 	private Integer productCount;
 
+	@TableField(exist = false)
+	private List<CategoryEntity> childrenList;
 }
